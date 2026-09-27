@@ -1,0 +1,3536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sopa de Letras 507</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            #174d78 0%,
+            #0c233b 28%,
+            #07111f 58%,
+            #020711 100%
+        );
+    color:#fff;
+    min-height:100vh;
+    padding:20px;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0,174,239,.07),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(32,185,101,.05),
+            transparent 25%
+        );
+    z-index:-1;
+}
+
+button{
+    font-family:inherit;
+}
+
+.app{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    text-align:center;
+}
+
+.logo{
+    font-size:42px;
+    font-weight:900;
+    margin-bottom:5px;
+    letter-spacing:-1px;
+    text-shadow:
+        0 3px 15px rgba(0,0,0,.35);
+}
+
+.subtitulo{
+    color:#9fb3c8;
+    margin-bottom:25px;
+    font-size:15px;
+}
+
+.panel{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18,35,53,.98),
+            rgba(8,19,32,.98)
+        );
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:28px;
+    padding:30px;
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.48),
+        inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.pantalla{
+    display:none;
+}
+
+.pantalla.activa{
+    display:block;
+    animation:entradaPantalla .35s ease;
+}
+
+@keyframes entradaPantalla{
+
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* =========================================================
+   MENÚ
+========================================================= */
+
+.titulo-menu{
+    font-size:28px;
+    margin-bottom:25px;
+}
+
+.grupo-botones{
+    display:grid;
+    gap:15px;
+    max-width:650px;
+    margin:auto;
+}
+
+.boton-menu{
+    border:none;
+    border-radius:16px;
+    padding:18px;
+    font-size:20px;
+    font-weight:bold;
+    color:white;
+    cursor:pointer;
+    transition:
+        transform .2s,
+        filter .2s,
+        box-shadow .2s;
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.2);
+}
+
+.boton-menu:hover{
+    transform:translateY(-3px);
+    filter:brightness(1.08);
+}
+
+.boton-menu:active{
+    transform:scale(.98);
+}
+
+.facil{
+    background:
+        linear-gradient(
+            135deg,
+            #18a957,
+            #0d7f40
+        );
+}
+
+.intermedio{
+    background:
+        linear-gradient(
+            135deg,
+            #e2a400,
+            #b87800
+        );
+}
+
+.dificil{
+    background:
+        linear-gradient(
+            135deg,
+            #e43b47,
+            #a91e2b
+        );
+}
+
+/* =========================================================
+   CATEGORÍAS
+========================================================= */
+
+.categorias{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    max-width:800px;
+    margin:auto;
+}
+
+.boton-categoria{
+    border:1px solid #29445e;
+    background:
+        linear-gradient(
+            145deg,
+            #1b334c,
+            #12263a
+        );
+    color:white;
+    border-radius:16px;
+    padding:18px 10px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:
+        transform .2s,
+        background .2s,
+        border-color .2s,
+        box-shadow .2s;
+    box-shadow:
+        0 7px 18px rgba(0,0,0,.18);
+}
+
+.boton-categoria:hover{
+    background:
+        linear-gradient(
+            145deg,
+            #285071,
+            #183b56
+        );
+    border-color:#3e7399;
+    transform:translateY(-3px);
+    box-shadow:
+        0 12px 25px rgba(0,0,0,.25);
+}
+
+.boton-categoria.sorpresa{
+    background:
+        linear-gradient(
+            135deg,
+            #7b4ce0,
+            #5130a0
+        );
+    border-color:#9873ef;
+}
+
+.emoji{
+    display:block;
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.info-seleccion{
+    color:#9fb3c8;
+    margin-bottom:20px;
+}
+
+/* =========================================================
+   SONIDO
+========================================================= */
+
+.control-sonido{
+    margin:20px auto 0;
+    text-align:center;
+}
+
+.boton-sonido{
+    border:none;
+    border-radius:14px;
+    padding:13px 24px;
+    background:
+        linear-gradient(
+            135deg,
+            #08aeea,
+            #087fc0
+        );
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:
+        0 7px 20px rgba(0,0,0,.25);
+    transition:.2s;
+}
+
+.boton-sonido:hover{
+    transform:translateY(-2px);
+}
+
+.boton-sonido.apagado{
+    background:#475569;
+}
+
+.estado-sonido{
+    color:#9fb3c8;
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+/* =========================================================
+   JUEGO
+========================================================= */
+
+.encabezado-juego{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.info-juego{
+    background:
+        linear-gradient(
+            145deg,
+            #1a344d,
+            #11263a
+        );
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:12px;
+    padding:10px 15px;
+    font-weight:bold;
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.16);
+}
+
+.contenido-juego{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:30px;
+}
+
+.tablero{
+    display:grid;
+    gap:4px;
+    width:min(650px,90vw);
+    max-width:650px;
+    margin:auto;
+    touch-action:manipulation;
+    user-select:none;
+}
+
+.celda{
+    aspect-ratio:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        linear-gradient(
+            145deg,
+            #1b344d,
+            #11263a
+        );
+    border:1px solid rgba(255,255,255,.025);
+    border-radius:7px;
+    font-size:clamp(13px,3vw,25px);
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+    transition:
+        transform .12s,
+        background .12s,
+        box-shadow .12s;
+}
+
+.celda:hover{
+    background:#244766;
+    transform:scale(1.04);
+}
+
+.celda.seleccionada{
+    background:
+        linear-gradient(
+            135deg,
+            #ffd45a,
+            #eaa916
+        );
+    color:#07111f;
+    box-shadow:
+        0 0 14px rgba(244,185,66,.55);
+}
+
+.celda.encontrada{
+    background:
+        linear-gradient(
+            135deg,
+            #25d879,
+            #139451
+        );
+    color:white;
+    box-shadow:
+        0 0 12px rgba(32,185,101,.28);
+}
+
+.lista{
+    background:
+        linear-gradient(
+            145deg,
+            #0d1c2d,
+            #081321
+        );
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:18px;
+    padding:20px;
+    min-width:230px;
+    max-width:280px;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.2);
+}
+
+.lista h2{
+    font-size:20px;
+    margin-bottom:15px;
+}
+
+.lista-palabras{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.palabra{
+    background:
+        linear-gradient(
+            145deg,
+            #19334c,
+            #12273a
+        );
+    padding:8px 10px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:16px;
+    transition:.2s;
+}
+
+.palabra.encontrada{
+    background:#164f35;
+    color:#54e596;
+    text-decoration:line-through;
+    opacity:.75;
+}
+
+.estado{
+    min-height:30px;
+    margin-top:18px;
+    color:#f4b942;
+    font-weight:bold;
+    line-height:1.4;
+}
+
+.barra-progreso{
+    height:8px;
+    background:#172b42;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+.progreso{
+    height:100%;
+    width:0;
+    background:
+        linear-gradient(
+            90deg,
+            #16a765,
+            #54e596
+        );
+    transition:width .35s ease;
+}
+
+.botones-juego{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.boton{
+    border:none;
+    border-radius:10px;
+    padding:12px 22px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.boton-nueva{
+    background:
+        linear-gradient(
+            135deg,
+            #e63946,
+            #ad202b
+        );
+}
+
+.boton-menu-principal{
+    background:
+        linear-gradient(
+            135deg,
+            #365b7e,
+            #27445f
+        );
+}
+
+.boton:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.08);
+}
+
+/* =========================================================
+   VICTORIA MODERNA
+========================================================= */
+
+.victoria{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            rgba(255,210,70,.15),
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(16,49,52,.98),
+            rgba(8,27,34,.98)
+        );
+    border:1px solid rgba(255,208,67,.5);
+    border-radius:24px;
+    padding:30px 20px 25px;
+    margin-top:25px;
+    animation:
+        aparecerVictoria .65s cubic-bezier(.2,.8,.2,1);
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.35),
+        0 0 35px rgba(255,197,54,.08),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.victoria::before{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    left:50%;
+    top:-180px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,213,74,.18),
+            transparent 68%
+        );
+    pointer-events:none;
+}
+
+.victoria h2{
+    position:relative;
+    font-size:clamp(30px,6vw,48px);
+    margin-bottom:8px;
+    font-weight:900;
+    letter-spacing:-1px;
+    background:
+        linear-gradient(
+            180deg,
+            #fff9c4,
+            #ffd34d,
+            #e7a70c
+        );
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:
+        0 5px 25px rgba(255,194,44,.15);
+}
+
+.victoria p{
+    position:relative;
+    color:#d8eee3;
+    margin-bottom:8px;
+    font-size:17px;
+}
+
+.victoria .frase{
+    font-size:21px;
+    font-weight:900;
+    color:#fff;
+}
+
+/* =========================================================
+   TROFEO 3D
+========================================================= */
+
+.trofeo-3d{
+    position:relative;
+    width:180px;
+    height:210px;
+    margin:0 auto 15px;
+    perspective:800px;
+    animation:
+        trofeoEntrada .9s cubic-bezier(.2,.8,.2,1);
+}
+
+.trofeo-aura{
+    position:absolute;
+    width:180px;
+    height:180px;
+    left:0;
+    top:0;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,215,80,.28),
+            rgba(255,193,7,.08) 38%,
+            transparent 70%
+        );
+    filter:blur(5px);
+    animation:
+        auraTrofeo 2.2s ease-in-out infinite;
+}
+
+.trofeo{
+    position:absolute;
+    left:50%;
+    top:18px;
+    width:110px;
+    height:125px;
+    transform:
+        translateX(-50%)
+        rotateX(5deg)
+        rotateY(-8deg);
+    transform-style:preserve-3d;
+    animation:
+        flotarTrofeo 3s ease-in-out infinite;
+}
+
+.copa-cuerpo{
+    position:absolute;
+    left:15px;
+    top:0;
+    width:80px;
+    height:88px;
+    background:
+        linear-gradient(
+            100deg,
+            #9b6505 0%,
+            #ffd95b 18%,
+            #fff1a0 38%,
+            #e9ad18 57%,
+            #9d6404 82%,
+            #f6c63d 100%
+        );
+    border-radius:
+        10px 10px 38px 38px;
+    clip-path:
+        polygon(
+            5% 0,
+            95% 0,
+            88% 52%,
+            72% 82%,
+            50% 100%,
+            28% 82%,
+            12% 52%
+        );
+    box-shadow:
+        inset 8px 0 12px rgba(255,255,255,.28),
+        inset -10px 0 15px rgba(71,42,0,.3),
+        0 10px 22px rgba(0,0,0,.35);
+}
+
+.copa-borde{
+    position:absolute;
+    left:10px;
+    top:-3px;
+    width:90px;
+    height:15px;
+    border-radius:50%;
+    background:
+        linear-gradient(
+            180deg,
+            #fff1a0,
+            #d99c0b
+        );
+    box-shadow:
+        0 4px 8px rgba(0,0,0,.25);
+}
+
+.asa{
+    position:absolute;
+    width:40px;
+    height:52px;
+    top:14px;
+    border:9px solid #d99d11;
+    border-radius:50%;
+    z-index:-1;
+}
+
+.asa.izquierda{
+    left:-15px;
+}
+
+.asa.derecha{
+    right:-15px;
+}
+
+.trofeo-cuello{
+    position:absolute;
+    left:43px;
+    top:82px;
+    width:24px;
+    height:27px;
+    background:
+        linear-gradient(
+            90deg,
+            #a76c06,
+            #ffe071,
+            #b77707
+        );
+    border-radius:3px;
+}
+
+.trofeo-base-superior{
+    position:absolute;
+    left:27px;
+    top:105px;
+    width:56px;
+    height:11px;
+    border-radius:4px;
+    background:
+        linear-gradient(
+            180deg,
+            #fff0a1,
+            #c08309
+        );
+}
+
+.trofeo-base{
+    position:absolute;
+    left:18px;
+    top:114px;
+    width:74px;
+    height:20px;
+    border-radius:5px 5px 9px 9px;
+    background:
+        linear-gradient(
+            180deg,
+            #e9b629,
+            #805000
+        );
+    box-shadow:
+        0 7px 12px rgba(0,0,0,.35);
+}
+
+.trofeo-estrella{
+    position:absolute;
+    left:50%;
+    top:29px;
+    transform:translateX(-50%);
+    font-size:34px;
+    color:#fff5ba;
+    text-shadow:
+        0 0 8px rgba(255,255,255,.75),
+        0 0 20px rgba(255,212,72,.9);
+    z-index:4;
+}
+
+@keyframes trofeoEntrada{
+
+    0%{
+        opacity:0;
+        transform:translateY(35px) scale(.65) rotateY(-35deg);
+    }
+
+    70%{
+        transform:translateY(-5px) scale(1.04) rotateY(8deg);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0) scale(1) rotateY(0);
+    }
+
+}
+
+@keyframes flotarTrofeo{
+
+    0%,100%{
+        transform:
+            translateX(-50%)
+            translateY(0)
+            rotateX(5deg)
+            rotateY(-8deg);
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            translateY(-8px)
+            rotateX(2deg)
+            rotateY(8deg);
+    }
+
+}
+
+@keyframes auraTrofeo{
+
+    0%,100%{
+        transform:scale(.9);
+        opacity:.65;
+    }
+
+    50%{
+        transform:scale(1.12);
+        opacity:1;
+    }
+
+}
+
+/* =========================================================
+   CONFETI
+========================================================= */
+
+.confeti{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.confeti span{
+    position:absolute;
+    width:7px;
+    height:13px;
+    top:-20px;
+    border-radius:2px;
+    animation:
+        caerConfeti 2.8s linear forwards;
+}
+
+.confeti span:nth-child(1){
+    left:8%;
+    animation-delay:.1s;
+    background:#ff4d67;
+}
+
+.confeti span:nth-child(2){
+    left:18%;
+    animation-delay:.4s;
+    background:#52d9ff;
+}
+
+.confeti span:nth-child(3){
+    left:30%;
+    animation-delay:.15s;
+    background:#ffd34e;
+}
+
+.confeti span:nth-child(4){
+    left:43%;
+    animation-delay:.7s;
+    background:#58e89a;
+}
+
+.confeti span:nth-child(5){
+    left:57%;
+    animation-delay:.3s;
+    background:#ff75d1;
+}
+
+.confeti span:nth-child(6){
+    left:70%;
+    animation-delay:.8s;
+    background:#ffd34e;
+}
+
+.confeti span:nth-child(7){
+    left:82%;
+    animation-delay:.2s;
+    background:#52d9ff;
+}
+
+.confeti span:nth-child(8){
+    left:92%;
+    animation-delay:.55s;
+    background:#ff4d67;
+}
+
+@keyframes caerConfeti{
+
+    0%{
+        transform:
+            translateY(-20px)
+            rotate(0deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:
+            translateY(420px)
+            rotate(540deg);
+        opacity:0;
+    }
+
+}
+
+/* =========================================================
+   CRÉDITOS
+========================================================= */
+
+.creditos{
+    position:relative;
+    margin-top:20px;
+    color:#9fb3c8;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.creditos strong{
+    color:#fff;
+}
+
+/* =========================================================
+   ANIMACIÓN GENERAL VICTORIA
+========================================================= */
+
+@keyframes aparecerVictoria{
+
+    from{
+        opacity:0;
+        transform:
+            scale(.82)
+            translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:800px){
+
+    .contenido-juego{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .lista{
+        width:100%;
+        max-width:650px;
+    }
+
+    .categorias{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .panel{
+        padding:20px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    body{
+        padding:10px;
+    }
+
+    .logo{
+        font-size:32px;
+    }
+
+    .titulo-menu{
+        font-size:24px;
+    }
+
+    .categorias{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .boton-categoria{
+        padding:14px 6px;
+        font-size:14px;
+    }
+
+    .emoji{
+        font-size:25px;
+    }
+
+    .tablero{
+        gap:3px;
+    }
+
+    .celda{
+        border-radius:4px;
+    }
+
+    .encabezado-juego{
+        justify-content:center;
+    }
+
+    .info-juego{
+        font-size:13px;
+        padding:8px 10px;
+    }
+
+    .victoria{
+        padding:25px 12px 20px;
+    }
+
+}
+
+/* =========================================================
+   REDUCCIÓN DE MOVIMIENTO
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition:none !important;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="logo">
+        🔎 Sopa de Letras 507
+    </div>
+
+    <p class="subtitulo">
+        Encuentra las palabras. Diviértete. ¡Supera el reto!
+    </p>
+
+    <div class="panel">
+
+        <!-- =================================================
+             PANTALLA NIVEL
+        ================================================== -->
+
+        <section
+            id="pantallaNivel"
+            class="pantalla activa"
+        >
+
+            <h2 class="titulo-menu">
+                🎮 Elige tu nivel
+            </h2>
+
+            <div class="grupo-botones">
+
+                <button
+                    class="boton-menu facil"
+                    onclick="seleccionarNivel('facil')"
+                >
+                    🟢 FÁCIL
+                </button>
+
+                <button
+                    class="boton-menu intermedio"
+                    onclick="seleccionarNivel('intermedio')"
+                >
+                    🟡 INTERMEDIO
+                </button>
+
+                <button
+                    class="boton-menu dificil"
+                    onclick="seleccionarNivel('dificil')"
+                >
+                    🔴 DIFÍCIL
+                </button>
+
+            </div>
+
+            <div class="control-sonido">
+
+                <button
+                    id="botonSonido"
+                    class="boton-sonido"
+                    onclick="alternarSonido()"
+                >
+                    🔊 Sonido: ON
+                </button>
+
+                <div
+                    id="estadoSonido"
+                    class="estado-sonido"
+                >
+                    Música y efectos activados
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             PANTALLA CATEGORÍA
+        ================================================== -->
+
+        <section
+            id="pantallaCategoria"
+            class="pantalla"
+        >
+
+            <h2 class="titulo-menu">
+                🌎 Elige una categoría
+            </h2>
+
+            <p
+                id="nivelElegido"
+                class="info-seleccion"
+            ></p>
+
+            <div class="categorias">
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('animales')"
+                >
+                    <span class="emoji">🐾</span>
+                    Animales
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('paises')"
+                >
+                    <span class="emoji">🌎</span>
+                    Países
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('playa')"
+                >
+                    <span class="emoji">🏖️</span>
+                    Playa
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('frutas')"
+                >
+                    <span class="emoji">🍎</span>
+                    Frutas
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('deportes')"
+                >
+                    <span class="emoji">⚽</span>
+                    Deportes
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('naturaleza')"
+                >
+                    <span class="emoji">🌳</span>
+                    Naturaleza
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('vehiculos')"
+                >
+                    <span class="emoji">🚗</span>
+                    Vehículos
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('comida')"
+                >
+                    <span class="emoji">🍔</span>
+                    Comida
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('espacio')"
+                >
+                    <span class="emoji">🚀</span>
+                    Espacio
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('tecnologia')"
+                >
+                    <span class="emoji">💻</span>
+                    Tecnología
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('musica')"
+                >
+                    <span class="emoji">🎵</span>
+                    Música
+                </button>
+
+                <button
+                    class="boton-categoria"
+                    onclick="iniciarJuego('hogar')"
+                >
+                    <span class="emoji">🏠</span>
+                    Hogar
+                </button>
+
+                <button
+                    class="boton-categoria sorpresa"
+                    onclick="iniciarJuego('sorpresa')"
+                >
+                    <span class="emoji">🎲</span>
+                    Sorpresa
+                </button>
+
+            </div>
+
+            <div class="botones-juego">
+
+                <button
+                    class="boton boton-menu-principal"
+                    onclick="volverNivel()"
+                >
+                    ← Cambiar nivel
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             PANTALLA JUEGO
+        ================================================== -->
+
+        <section
+            id="pantallaJuego"
+            class="pantalla"
+        >
+
+            <div class="encabezado-juego">
+
+                <div class="info-juego">
+                    Nivel:
+                    <span id="textoNivel"></span>
+                </div>
+
+                <div class="info-juego">
+                    Categoría:
+                    <span id="textoCategoria"></span>
+                </div>
+
+                <div class="info-juego">
+                    Encontradas:
+                    <span id="contador">0</span>
+                    /
+                    <span id="total">0</span>
+                </div>
+
+            </div>
+
+            <div class="contenido-juego">
+
+                <div>
+
+                    <div
+                        id="tablero"
+                        class="tablero"
+                    ></div>
+
+                </div>
+
+                <div class="lista">
+
+                    <h2>
+                        🔎 Palabras
+                    </h2>
+
+                    <div
+                        id="listaPalabras"
+                        class="lista-palabras"
+                    ></div>
+
+                    <div
+                        id="estado"
+                        class="estado"
+                    >
+                        Haz clic en la primera y última letra.
+                    </div>
+
+                    <div class="barra-progreso">
+
+                        <div
+                            id="progreso"
+                            class="progreso"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="mensajeVictoria"></div>
+
+            <div class="botones-juego">
+
+                <button
+                    class="boton boton-nueva"
+                    onclick="nuevaSopa()"
+                >
+                    🔄 Nueva Sopa
+                </button>
+
+                <button
+                    class="boton boton-menu-principal"
+                    onclick="volverCategoria()"
+                >
+                    ← Cambiar categoría
+                </button>
+
+                <button
+                    class="boton boton-menu-principal"
+                    onclick="volverNivel()"
+                >
+                    🎮 Cambiar nivel
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   BANCO AMPLIADO DE PALABRAS
+   ---------------------------------------------------------
+   Se conservan las palabras originales y se agregan muchas
+   más para aumentar la variedad entre partidas.
+========================================================= */
+
+const banco = {
+
+    animales:[
+        "PERRO","GATO","LEON","TIGRE","CABALLO",
+        "ELEFANTE","JIRAFA","MONO","OSO","LOBO",
+        "ZORRO","CONEJO","DELFIN","BALLENA","TIBURON",
+        "AGUILA","BUHO","TORTUGA","COCODRILO","PINGUINO",
+        "CEBRA","GORILA","RINOCERONTE","HIPOPOTAMO","CAMELLO",
+        "CANGURO","KOALA","PANDA","CIERVO","ARDILLA",
+        "MAPACHE","MURCIELAGO","IGUANA","LAGARTO","SERPIENTE",
+        "RANA","SAPO","MARIPOSA","ABEJA","HORMIGA",
+        "ESCORPION","ARAÑA","PULPO","CALAMAR","FOCA",
+        "NUTRIA","JAGUAR","PANTERA","PUMA","BISONTE"
+    ],
+
+    paises:[
+        "PANAMA","MEXICO","CANADA","BRASIL","ARGENTINA",
+        "CHILE","PERU","COLOMBIA","ESPAÑA","FRANCIA",
+        "ITALIA","ALEMANIA","JAPON","CHINA","INDIA",
+        "EGIPTO","AUSTRALIA","PORTUGAL","NORUEGA","COSTARICA",
+        "ECUADOR","BOLIVIA","URUGUAY","PARAGUAY","VENEZUELA",
+        "GUATEMALA","HONDURAS","NICARAGUA","SALVADOR","BELICE",
+        "CUBA","JAMAICA","BAHAMAS","CANADA","ISLANDIA",
+        "SUECIA","FINLANDIA","DINAMARCA","HOLANDA","BELGICA",
+        "SUIZA","AUSTRIA","GRECIA","TURQUIA","MARRUECOS",
+        "KENIA","SUDAFRICA","TAILANDIA","VIETNAM","COREA"
+    ],
+
+    playa:[
+        "ARENA","MAR","OLA","PALMERA","SOL",
+        "SOMBRILLA","TOALLA","SALVAVIDAS","PLAYA","OCEANO",
+        "VERANO","CONCHA","ISLA","SURF","BRISA",
+        "BARCO","PESCADOR","TROPICO","CORAL","ARRECIFE",
+        "BUCEO","SNORKEL","MAREA","ORILLA","COSTA",
+        "BAHIA","LAGUNA","CANGREJO","ESTRELLA","CARACOLA",
+        "COCOTERO","HAMACA","SANDALIA","BRONCEADOR","GAFAS",
+        "TABLA","VELERO","YATE","PUERTO","PALMERAS",
+        "ATARDECER","HORIZONTE","AGUA","SAL","ESPUMA"
+    ],
+
+    frutas:[
+        "MANZANA","PERA","MANGO","PINA","BANANA",
+        "NARANJA","LIMON","SANDIA","MELON","PAPAYA",
+        "FRESA","CEREZA","UVA","KIWI","COCO",
+        "GUAYABA","CIRUELA","DURAZNO","MANDARINA","TORONJA",
+        "GRANADA","FRAMBUESA","MORA","ARANDANO","MARACUYA",
+        "TAMARINDO","AGUACATE","HIGO","DATIL","PITAHAYA",
+        "NISPERO","MAMEY","GUANABANA","CAIMITO","ZAPOTE",
+        "MELON","POMELO","NECTARINA","ALBARICOQUE","LIMA"
+    ],
+
+    deportes:[
+        "FUTBOL","BEISBOL","TENIS","BOXEO","NATACION",
+        "BALONCESTO","VOLEIBOL","CICLISMO","ATLETISMO",
+        "GOLF","SURF","RUGBY","KARATE","AJEDREZ",
+        "PATINAJE","MARATON","BESBOL","JUDO","TAEKWONDO",
+        "ESGRIMA","REMO","CANOTAJE","GIMNASIA","ESCALADA",
+        "BOLICHE","BMX","SKATE","TRIATLON","BARRAS",
+        "HOKEY","CRICKET","BADMINTON","HANDBALL","PESAS",
+        "RUNNING","SENDERISMO","PARACAIDISMO","BUCEO","VELA"
+    ],
+
+    naturaleza:[
+        "ARBOL","BOSQUE","RIO","MONTANA","VOLCAN",
+        "LAGO","FLOR","HOJA","NUBE","LLUVIA",
+        "TRUENO","DESIERTO","SELVA","CASCADA","VALLE",
+        "TIERRA","ROCA","VIENTO","ARCOIRIS","NIEVE",
+        "HIELO","GLACIAR","CUEVA","PRADERA","JARDIN",
+        "SEMILLA","RAIZ","TRONCO","RAMAS","BOSQUE",
+        "OASIS","PANTANO","MANANTIAL","ISLA","COSTA",
+        "FUEGO","AIRE","AGUA","TIERRA","SOL"
+    ],
+
+    vehiculos:[
+        "CARRO","AUTO","BUS","TAXI","MOTO",
+        "CAMION","TREN","AVION","BARCO","BICICLETA",
+        "HELICOPTERO","TRACTOR","AMBULANCIA","PATRULLA",
+        "COHETE","SUBMARINO","METRO","TRAMVIA","FURGON",
+        "CAMIONETA","MOTOCICLETA","SCOOTER","LANCHA","VELERO",
+        "YATE","KART","BULLDOZER","EXCAVADORA","GRUA",
+        "REMOLQUE","VAGON","JET","DRON","TRANVIA",
+        "TROLEBUS","MONTACARGAS","BICICLETA","PATINETA","AERONAVE"
+    ],
+
+    comida:[
+        "PIZZA","ARROZ","PASTA","SOPA","PAN",
+        "QUESO","POLLO","CARNE","HAMBURGUESA","ENSALADA",
+        "TACO","SANDWICH","HELADO","CHOCOLATE","GALLETAS",
+        "CEVICHE","AREPA","TAMALE","EMPANADA","PAPAS",
+        "PESCADO","CAMARON","LANGOSTA","CEBOLLA","TOMATE",
+        "ZANAHORIA","LECHUGA","MAIZ","FRIJOLES","LENTEJAS",
+        "YOGUR","JAMON","TOCINO","SALSA","SUSHI",
+        "RAMEN","CURRY","PAELLA","BURRITO","NACHOS",
+        "WAFFLE","PANQUEQUE","DONUT","FLAN","TORTA"
+    ],
+
+    espacio:[
+        "LUNA","SOL","MARTE","TIERRA","VENUS",
+        "SATURNO","JUPITER","ESTRELLA","PLANETA","GALAXIA",
+        "COMETA","ASTEROIDE","COHETE","ASTRONAUTA","UNIVERSO",
+        "ORBITA","NEBULOSA","METEORITO","SATELITE","COSMOS",
+        "MERCURIO","NEPTUNO","URANO","PLUTON","GRAVEDAD",
+        "TELESCOPIO","ECLIPSE","SUPERNOVA","CONSTELACION","ESPACIO",
+        "MARTE","LUNAR","CRATER","APOLO","NASA",
+        "ORION","ANDROMEDA","VENUS","JUPITER","ESTACION"
+    ],
+
+    tecnologia:[
+        "COMPUTADORA","CELULAR","TABLETA","INTERNET","CAMARA",
+        "TECLADO","MOUSE","PANTALLA","ROBOT","CODIGO",
+        "SOFTWARE","RED","DATOS","VIDEO","JUEGO","NUBE",
+        "SERVIDOR","PROGRAMA","APP","WEB","DIGITAL",
+        "PIXEL","CAMARA","DRON","LASER","SENSOR",
+        "MEMORIA","PROCESADOR","BATERIA","BLUETOOTH","WIFI",
+        "USB","TABLETA","MONITOR","TECLADO","MICROCHIP",
+        "ALGORITMO","SISTEMA","IA","INTELIGENCIA","REALIDAD",
+        "VIRTUAL","GADGET","PANTALLA","CODIFICAR"
+    ],
+
+    musica:[
+        "MUSICA","CANCION","RITMO","MELODIA","GUITARRA",
+        "PIANO","TAMBOR","VIOLIN","CANTANTE","BAILE",
+        "NOTA","ORQUESTA","CONCIERTO","SONIDO","RADIO",
+        "BANDA","CORO","ARMONIA","ACORDE","TECLADO",
+        "SAXOFON","TROMPETA","FLAUTA","CELLO","BATERIA",
+        "MARACA","TIMBAL","DJ","DISCO","ROCK",
+        "SALSA","MERENGUE","TANGO","JAZZ","BLUES",
+        "OPERA","POP","RAP","REGGAE","FOLK",
+        "ESTUDIO","MICROFONO","ALTAVOZ","ESCENARIO"
+    ],
+
+    hogar:[
+        "CASA","MESA","SILLA","CAMA","SOFA",
+        "COCINA","BANO","PUERTA","VENTANA","TECHO",
+        "JARDIN","LAMPARA","TELEVISION","REFRIGERADOR",
+        "ARMARIO","ESPEJO","ALMOHADA","COLCHON","CORTINA",
+        "ALFOMBRA","COJIN","ESTUFA","HORNO","LAVADORA",
+        "SECADORA","PLATO","VASO","TAZA","TENEDOR",
+        "CUCHILLO","CUCHARA","JABON","TOALLA","DUCHA",
+        "GARAGE","BALCON","ESCALERA","PARED","PISO",
+        "MUEBLE","RELOJ","TELEFONO","VENTILADOR","ABANICO"
+    ]
+
+};
+
+
+/* =========================================================
+   NIVELES
+========================================================= */
+
+const niveles = {
+
+    facil:{
+        nombre:"FÁCIL",
+        filas:8,
+        columnas:8,
+        cantidad:5,
+        diagonales:false,
+        invertidas:false
+    },
+
+    intermedio:{
+        nombre:"INTERMEDIO",
+        filas:10,
+        columnas:10,
+        cantidad:8,
+        diagonales:true,
+        invertidas:false
+    },
+
+    dificil:{
+        nombre:"DIFÍCIL",
+        filas:13,
+        columnas:13,
+        cantidad:10,
+        diagonales:true,
+        invertidas:true
+    }
+
+};
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let nivelActual = null;
+
+let categoriaActual = null;
+
+let palabras = [];
+
+let filas = 10;
+
+let columnas = 10;
+
+let matriz = [];
+
+let seleccionInicial = null;
+
+let palabrasEncontradas = [];
+
+
+/*
+   Historial de palabras utilizadas recientemente.
+   Sirve para que al pulsar "Nueva Sopa" no aparezca
+   constantemente el mismo conjunto.
+*/
+
+let historialPalabras = [];
+
+const MAX_HISTORIAL = 35;
+
+
+/* =========================================================
+   SONIDO
+========================================================= */
+
+let sonidoActivo = true;
+
+let audioContext = null;
+
+let osciladorMusica = null;
+
+let gananciaMusica = null;
+
+let musicaIniciada = false;
+
+
+/* =========================================================
+   NOMBRES DE CATEGORÍAS
+========================================================= */
+
+const nombresCategoria = {
+
+    animales:"ANIMALES",
+    paises:"PAÍSES",
+    playa:"PLAYA",
+    frutas:"FRUTAS",
+    deportes:"DEPORTES",
+    naturaleza:"NATURALEZA",
+    vehiculos:"VEHÍCULOS",
+    comida:"COMIDA",
+    espacio:"ESPACIO",
+    tecnologia:"TECNOLOGÍA",
+    musica:"MÚSICA",
+    hogar:"HOGAR"
+
+};
+
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function mezclar(array){
+
+    const copia = [...array];
+
+    for(
+        let i=copia.length-1;
+        i>0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random()*(i+1)
+            );
+
+        [
+            copia[i],
+            copia[j]
+        ] =
+        [
+            copia[j],
+            copia[i]
+        ];
+
+    }
+
+    return copia;
+
+}
+
+
+function limpiarPalabra(palabra){
+
+    return palabra
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/[^A-Z]/gi,"")
+        .toUpperCase();
+
+}
+
+
+/* =========================================================
+   HISTORIAL DE PALABRAS
+========================================================= */
+
+function registrarPalabrasUsadas(lista){
+
+    lista.forEach(
+        palabra => {
+
+            const limpia =
+                limpiarPalabra(palabra);
+
+            if(!limpia){
+                return;
+            }
+
+            historialPalabras =
+                historialPalabras.filter(
+                    item => item !== limpia
+                );
+
+            historialPalabras.push(
+                limpia
+            );
+
+        }
+    );
+
+
+    if(
+        historialPalabras.length >
+        MAX_HISTORIAL
+    ){
+
+        historialPalabras =
+            historialPalabras.slice(
+                -MAX_HISTORIAL
+            );
+
+    }
+
+}
+
+
+function obtenerCandidatas(disponibles){
+
+    let nuevas =
+        disponibles.filter(
+            palabra =>
+                !historialPalabras.includes(
+                    limpiarPalabra(palabra)
+                )
+        );
+
+
+    /*
+       Si ya usamos muchas palabras,
+       permitimos reutilización parcial.
+    */
+
+    if(
+        nuevas.length < 15
+    ){
+
+        nuevas =
+            disponibles.filter(
+                palabra =>
+                    !historialPalabras.includes(
+                        limpiarPalabra(palabra)
+                    )
+            );
+
+        const antiguas =
+            disponibles.filter(
+                palabra =>
+                    historialPalabras.includes(
+                        limpiarPalabra(palabra)
+                    )
+            );
+
+        nuevas =
+            [
+                ...nuevas,
+                ...mezclar(antiguas)
+            ];
+
+    }
+
+
+    return mezclar(nuevas);
+
+}
+
+
+/* =========================================================
+   SISTEMA DE AUDIO
+========================================================= */
+
+function obtenerAudio(){
+
+    if(!audioContext){
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if(!AudioContext){
+
+            return null;
+
+        }
+
+        audioContext =
+            new AudioContext();
+
+    }
+
+    if(
+        audioContext.state === "suspended"
+    ){
+
+        audioContext.resume();
+
+    }
+
+    return audioContext;
+
+}
+
+
+/* =========================================================
+   TONO
+========================================================= */
+
+function tono(
+    frecuencia,
+    duracion,
+    tipo="sine",
+    volumen=.05
+){
+
+    if(!sonidoActivo){
+
+        return;
+
+    }
+
+    const ctx =
+        obtenerAudio();
+
+    if(!ctx){
+
+        return;
+
+    }
+
+    const oscilador =
+        ctx.createOscillator();
+
+    const ganancia =
+        ctx.createGain();
+
+    oscilador.type = tipo;
+
+    oscilador.frequency.value =
+        frecuencia;
+
+    ganancia.gain.setValueAtTime(
+        0.0001,
+        ctx.currentTime
+    );
+
+    ganancia.gain.exponentialRampToValueAtTime(
+        volumen,
+        ctx.currentTime+0.02
+    );
+
+    ganancia.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime+duracion
+    );
+
+    oscilador.connect(ganancia);
+
+    ganancia.connect(
+        ctx.destination
+    );
+
+    oscilador.start();
+
+    oscilador.stop(
+        ctx.currentTime+duracion+0.03
+    );
+
+}
+
+
+/* =========================================================
+   SONIDO CLICK
+========================================================= */
+
+function sonidoClick(){
+
+    tono(
+        520,
+        .08,
+        "sine",
+        .035
+    );
+
+}
+
+
+/* =========================================================
+   SONIDO PALABRA
+========================================================= */
+
+function sonidoPalabra(){
+
+    if(!sonidoActivo){
+
+        return;
+
+    }
+
+    tono(
+        660,
+        .10,
+        "sine",
+        .045
+    );
+
+    setTimeout(
+        () => {
+
+            tono(
+                880,
+                .14,
+                "sine",
+                .05
+            );
+
+        },
+        80
+    );
+
+}
+
+
+/* =========================================================
+   SONIDO ERROR
+========================================================= */
+
+function sonidoError(){
+
+    tono(
+        180,
+        .16,
+        "sawtooth",
+        .025
+    );
+
+}
+
+
+/* =========================================================
+   SONIDO VICTORIA
+========================================================= */
+
+function sonidoVictoria(){
+
+    if(!sonidoActivo){
+
+        return;
+
+    }
+
+    const notas = [
+        523.25,
+        659.25,
+        783.99,
+        1046.50,
+        1318.51
+    ];
+
+    notas.forEach(
+        (nota,indice) => {
+
+            setTimeout(
+                () => {
+
+                    tono(
+                        nota,
+                        .28,
+                        "sine",
+                        .07
+                    );
+
+                },
+                indice*130
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MÚSICA AMBIENTE
+========================================================= */
+
+function iniciarMusica(){
+
+    if(
+        !sonidoActivo ||
+        musicaIniciada
+    ){
+
+        return;
+
+    }
+
+    const ctx =
+        obtenerAudio();
+
+    if(!ctx){
+
+        return;
+
+    }
+
+    musicaIniciada = true;
+
+    gananciaMusica =
+        ctx.createGain();
+
+    gananciaMusica.gain.value =
+        0.012;
+
+    gananciaMusica.connect(
+        ctx.destination
+    );
+
+    osciladorMusica =
+        ctx.createOscillator();
+
+    osciladorMusica.type =
+        "sine";
+
+    osciladorMusica.frequency.value =
+        196;
+
+    osciladorMusica.connect(
+        gananciaMusica
+    );
+
+    osciladorMusica.start();
+
+}
+
+
+/* =========================================================
+   DETENER MÚSICA
+========================================================= */
+
+function detenerMusica(){
+
+    if(
+        !musicaIniciada
+    ){
+
+        return;
+
+    }
+
+    try{
+
+        if(
+            osciladorMusica
+        ){
+
+            osciladorMusica.stop();
+
+            osciladorMusica.disconnect();
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+    musicaIniciada = false;
+
+    osciladorMusica = null;
+
+    gananciaMusica = null;
+
+}
+
+
+/* =========================================================
+   ACTIVAR / DESACTIVAR SONIDO
+========================================================= */
+
+function alternarSonido(){
+
+    sonidoActivo =
+        !sonidoActivo;
+
+    const boton =
+        document.getElementById(
+            "botonSonido"
+        );
+
+    const estado =
+        document.getElementById(
+            "estadoSonido"
+        );
+
+    if(sonidoActivo){
+
+        boton.textContent =
+            "🔊 Sonido: ON";
+
+        boton.classList.remove(
+            "apagado"
+        );
+
+        estado.textContent =
+            "Música y efectos activados";
+
+        iniciarMusica();
+
+        sonidoClick();
+
+    }else{
+
+        boton.textContent =
+            "🔇 Sonido: OFF";
+
+        boton.classList.add(
+            "apagado"
+        );
+
+        estado.textContent =
+            "Música y efectos desactivados";
+
+        detenerMusica();
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECCIONAR NIVEL
+========================================================= */
+
+function seleccionarNivel(nivel){
+
+    if(
+        !niveles[nivel]
+    ){
+
+        return;
+
+    }
+
+    nivelActual =
+        nivel;
+
+    document
+        .getElementById(
+            "pantallaNivel"
+        )
+        .classList.remove(
+            "activa"
+        );
+
+    document
+        .getElementById(
+            "pantallaCategoria"
+        )
+        .classList.add(
+            "activa"
+        );
+
+    document
+        .getElementById(
+            "nivelElegido"
+        )
+        .textContent =
+            "Nivel seleccionado: " +
+            niveles[nivel].nombre;
+
+    iniciarMusica();
+
+    sonidoClick();
+
+}
+
+
+/* =========================================================
+   INICIAR JUEGO
+========================================================= */
+
+function iniciarJuego(categoria){
+
+    if(
+        !nivelActual ||
+        !niveles[nivelActual]
+    ){
+
+        volverNivel();
+
+        return;
+
+    }
+
+    if(
+        categoria === "sorpresa"
+    ){
+
+        const categorias =
+            Object.keys(banco);
+
+        categoriaActual =
+            categorias[
+                Math.floor(
+                    Math.random() *
+                    categorias.length
+                )
+            ];
+
+    }else{
+
+        categoriaActual =
+            categoria;
+
+    }
+
+    if(
+        !banco[categoriaActual]
+    ){
+
+        return;
+
+    }
+
+    document
+        .getElementById(
+            "pantallaCategoria"
+        )
+        .classList.remove(
+            "activa"
+        );
+
+    document
+        .getElementById(
+            "pantallaJuego"
+        )
+        .classList.add(
+            "activa"
+        );
+
+    iniciarMusica();
+
+    generarSopa();
+
+}
+
+
+/* =========================================================
+   SELECCIONAR PALABRAS
+========================================================= */
+
+function seleccionarPalabras(){
+
+    const configuracion =
+        niveles[nivelActual];
+
+    if(
+        !configuracion ||
+        !banco[categoriaActual]
+    ){
+
+        return false;
+
+    }
+
+    const maximo =
+        Math.max(
+            configuracion.filas,
+            configuracion.columnas
+        );
+
+    let disponibles =
+        banco[categoriaActual]
+        .filter(
+            palabra =>
+                limpiarPalabra(palabra).length
+                <=
+                maximo
+        );
+
+
+    /*
+       Eliminamos duplicados reales después
+       de limpiar acentos y caracteres.
+    */
+
+    const mapaUnico =
+        new Map();
+
+    disponibles.forEach(
+        palabra => {
+
+            const limpia =
+                limpiarPalabra(palabra);
+
+            if(limpia){
+
+                mapaUnico.set(
+                    limpia,
+                    palabra
+                );
+
+            }
+
+        }
+    );
+
+    disponibles =
+        Array.from(
+            mapaUnico.values()
+        );
+
+
+    /*
+       Primero buscamos palabras que no han
+       aparecido recientemente.
+    */
+
+    disponibles =
+        obtenerCandidatas(
+            disponibles
+        );
+
+
+    if(
+        disponibles.length <
+        configuracion.cantidad
+    ){
+
+        return false;
+
+    }
+
+
+    palabras =
+        disponibles.slice(
+            0,
+            configuracion.cantidad
+        );
+
+
+    /*
+       Las palabras largas primero ayudan
+       al generador a conseguir una sopa
+       más estable.
+    */
+
+    palabras =
+        palabras.sort(
+            (a,b) =>
+                limpiarPalabra(b).length -
+                limpiarPalabra(a).length
+        );
+
+
+    registrarPalabrasUsadas(
+        palabras
+    );
+
+
+    return (
+        palabras.length ===
+        configuracion.cantidad
+    );
+
+}
+
+
+/* =========================================================
+   GENERAR SOPA
+========================================================= */
+
+function generarSopa(){
+
+    const configuracion =
+        niveles[nivelActual];
+
+    if(!configuracion){
+
+        return;
+
+    }
+
+    filas =
+        configuracion.filas;
+
+    columnas =
+        configuracion.columnas;
+
+    let seleccionValida =
+        false;
+
+    /*
+       Varias selecciones diferentes.
+    */
+
+    for(
+        let seleccion=0;
+        seleccion<12;
+        seleccion++
+    ){
+
+        if(
+            seleccionarPalabras()
+        ){
+
+            seleccionValida =
+                true;
+
+            break;
+
+        }
+
+    }
+
+
+    if(!seleccionValida){
+
+        document.getElementById(
+            "tablero"
+        ).innerHTML = "";
+
+        document.getElementById(
+            "listaPalabras"
+        ).innerHTML = "";
+
+        document.getElementById(
+            "estado"
+        ).textContent =
+            "No hay suficientes palabras para este nivel.";
+
+        document.getElementById(
+            "contador"
+        ).textContent =
+            "0";
+
+        document.getElementById(
+            "total"
+        ).textContent =
+            "0";
+
+        document.getElementById(
+            "progreso"
+        ).style.width =
+            "0%";
+
+        return;
+
+    }
+
+
+    let exito = false;
+
+
+    /*
+       Intentamos construir la sopa muchas veces.
+    */
+
+    for(
+        let intento=0;
+        intento<250;
+        intento++
+    ){
+
+        matriz =
+            Array.from(
+                {
+                    length:filas
+                },
+                () =>
+                    Array(columnas).fill("")
+            );
+
+
+        exito = true;
+
+
+        for(
+            let i=0;
+            i<palabras.length;
+            i++
+        ){
+
+            if(
+                !colocarPalabra(
+                    palabras[i],
+                    configuracion
+                )
+            ){
+
+                exito = false;
+
+                break;
+
+            }
+
+        }
+
+
+        if(exito){
+
+            break;
+
+        }
+
+    }
+
+
+    /*
+       Si falló, probamos nuevas combinaciones.
+    */
+
+    if(!exito){
+
+        for(
+            let intento=0;
+            intento<20;
+            intento++
+        ){
+
+            if(
+                seleccionarPalabras()
+            ){
+
+                for(
+                    let intento2=0;
+                    intento2<150;
+                    intento2++
+                ){
+
+                    matriz =
+                        Array.from(
+                            {
+                                length:filas
+                            },
+                            () =>
+                                Array(
+                                    columnas
+                                ).fill("")
+                        );
+
+
+                    exito = true;
+
+
+                    for(
+                        let i=0;
+                        i<palabras.length;
+                        i++
+                    ){
+
+                        if(
+                            !colocarPalabra(
+                                palabras[i],
+                                configuracion
+                            )
+                        ){
+
+                            exito = false;
+
+                            break;
+
+                        }
+
+                    }
+
+
+                    if(exito){
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            if(exito){
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+    if(!exito){
+
+        document.getElementById(
+            "estado"
+        ).textContent =
+            "No se pudo generar esta sopa. Pulsa Nueva Sopa.";
+
+        return;
+
+    }
+
+
+    rellenarTablero();
+
+    mostrarTablero();
+
+    mostrarPalabras();
+
+
+    palabrasEncontradas = [];
+
+    seleccionInicial = null;
+
+
+    actualizarInformacion();
+
+
+    document.getElementById(
+        "estado"
+    ).textContent =
+        "Haz clic en la primera y última letra.";
+
+
+    document.getElementById(
+        "mensajeVictoria"
+    ).innerHTML = "";
+
+}
+
+
+/* =========================================================
+   COLOCAR PALABRA
+========================================================= */
+
+function colocarPalabra(
+    palabra,
+    configuracion
+){
+
+    const palabraLimpia =
+        limpiarPalabra(palabra);
+
+    let direcciones = [
+
+        [0,1],
+        [1,0]
+
+    ];
+
+    if(
+        configuracion.diagonales
+    ){
+
+        direcciones.push(
+            [1,1],
+            [1,-1]
+        );
+
+    }
+
+    if(
+        configuracion.invertidas
+    ){
+
+        direcciones.push(
+            [0,-1],
+            [-1,0],
+            [-1,-1],
+            [-1,1]
+        );
+
+    }
+
+
+    for(
+        let intento=0;
+        intento<1000;
+        intento++
+    ){
+
+        const direccion =
+            direcciones[
+                Math.floor(
+                    Math.random() *
+                    direcciones.length
+                )
+            ];
+
+        const df =
+            direccion[0];
+
+        const dc =
+            direccion[1];
+
+        const fila =
+            Math.floor(
+                Math.random()*filas
+            );
+
+        const columna =
+            Math.floor(
+                Math.random()*columnas
+            );
+
+        const finalFila =
+            fila +
+            df *
+            (
+                palabraLimpia.length-1
+            );
+
+        const finalColumna =
+            columna +
+            dc *
+            (
+                palabraLimpia.length-1
+            );
+
+        if(
+            finalFila<0 ||
+            finalFila>=filas ||
+            finalColumna<0 ||
+            finalColumna>=columnas
+        ){
+
+            continue;
+
+        }
+
+        let puedeColocar = true;
+
+        for(
+            let i=0;
+            i<palabraLimpia.length;
+            i++
+        ){
+
+            const f =
+                fila+df*i;
+
+            const c =
+                columna+dc*i;
+
+            if(
+                matriz[f][c] !== "" &&
+                matriz[f][c] !==
+                palabraLimpia[i]
+            ){
+
+                puedeColocar =
+                    false;
+
+                break;
+
+            }
+
+        }
+
+        if(puedeColocar){
+
+            for(
+                let i=0;
+                i<palabraLimpia.length;
+                i++
+            ){
+
+                const f =
+                    fila+df*i;
+
+                const c =
+                    columna+dc*i;
+
+                matriz[f][c] =
+                    palabraLimpia[i];
+
+            }
+
+            return true;
+
+        }
+
+    }
+
+    return false;
+
+}
+
+
+/* =========================================================
+   RELLENAR TABLERO
+========================================================= */
+
+function rellenarTablero(){
+
+    const letras =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    for(
+        let fila=0;
+        fila<filas;
+        fila++
+    ){
+
+        for(
+            let columna=0;
+            columna<columnas;
+            columna++
+        ){
+
+            if(
+                matriz[fila][columna] === ""
+            ){
+
+                matriz[fila][columna] =
+                    letras[
+                        Math.floor(
+                            Math.random() *
+                            letras.length
+                        )
+                    ];
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR TABLERO
+========================================================= */
+
+function mostrarTablero(){
+
+    const tablero =
+        document.getElementById(
+            "tablero"
+        );
+
+    tablero.innerHTML = "";
+
+    tablero.style.gridTemplateColumns =
+        `repeat(${columnas}, 1fr)`;
+
+    for(
+        let fila=0;
+        fila<filas;
+        fila++
+    ){
+
+        for(
+            let columna=0;
+            columna<columnas;
+            columna++
+        ){
+
+            const celda =
+                document.createElement(
+                    "div"
+                );
+
+            celda.className =
+                "celda";
+
+            celda.textContent =
+                matriz[fila][columna];
+
+            celda.dataset.fila =
+                fila;
+
+            celda.dataset.columna =
+                columna;
+
+            celda.addEventListener(
+                "click",
+                seleccionarCelda
+            );
+
+            tablero.appendChild(
+                celda
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR PALABRAS
+========================================================= */
+
+function mostrarPalabras(){
+
+    const lista =
+        document.getElementById(
+            "listaPalabras"
+        );
+
+    lista.innerHTML = "";
+
+    palabras.forEach(
+        (palabra,indice) => {
+
+            const elemento =
+                document.createElement(
+                    "div"
+                );
+
+            elemento.className =
+                "palabra";
+
+            elemento.id =
+                "palabra-"+indice;
+
+            elemento.textContent =
+                limpiarPalabra(
+                    palabra
+                );
+
+            lista.appendChild(
+                elemento
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SELECCIONAR CELDA
+========================================================= */
+
+function seleccionarCelda(event){
+
+    const celda =
+        event.currentTarget;
+
+    const fila =
+        Number(
+            celda.dataset.fila
+        );
+
+    const columna =
+        Number(
+            celda.dataset.columna
+        );
+
+    if(
+        seleccionInicial === null
+    ){
+
+        limpiarSeleccion();
+
+        seleccionInicial = {
+
+            fila:fila,
+
+            columna:columna
+
+        };
+
+        celda.classList.add(
+            "seleccionada"
+        );
+
+        document.getElementById(
+            "estado"
+        ).textContent =
+            "Ahora toca la última letra.";
+
+        sonidoClick();
+
+        return;
+
+    }
+
+    comprobarPalabra(
+        seleccionInicial.fila,
+        seleccionInicial.columna,
+        fila,
+        columna
+    );
+
+    limpiarSeleccion();
+
+    seleccionInicial = null;
+
+}
+
+
+/* =========================================================
+   COMPROBAR PALABRA
+========================================================= */
+
+function comprobarPalabra(
+    filaInicial,
+    columnaInicial,
+    filaFinal,
+    columnaFinal
+){
+
+    const df =
+        Math.sign(
+            filaFinal-filaInicial
+        );
+
+    const dc =
+        Math.sign(
+            columnaFinal-columnaInicial
+        );
+
+    const diferenciaFila =
+        Math.abs(
+            filaFinal-filaInicial
+        );
+
+    const diferenciaColumna =
+        Math.abs(
+            columnaFinal-columnaInicial
+        );
+
+    if(
+        diferenciaFila !== 0 &&
+        diferenciaColumna !== 0 &&
+        diferenciaFila !==
+        diferenciaColumna
+    ){
+
+        document.getElementById(
+            "estado"
+        ).textContent =
+            "La palabra debe estar en línea recta.";
+
+        sonidoError();
+
+        return;
+
+    }
+
+    const longitud =
+        Math.max(
+            diferenciaFila,
+            diferenciaColumna
+        )+1;
+
+    let palabraSeleccionada =
+        "";
+
+    for(
+        let i=0;
+        i<longitud;
+        i++
+    ){
+
+        const f =
+            filaInicial+df*i;
+
+        const c =
+            columnaInicial+dc*i;
+
+        palabraSeleccionada +=
+            matriz[f][c];
+
+    }
+
+    const palabraInvertida =
+        palabraSeleccionada
+            .split("")
+            .reverse()
+            .join("");
+
+    let indiceEncontrado = -1;
+
+    for(
+        let i=0;
+        i<palabras.length;
+        i++
+    ){
+
+        const palabra =
+            limpiarPalabra(
+                palabras[i]
+            );
+
+        if(
+            (
+                palabra ===
+                palabraSeleccionada
+                ||
+                palabra ===
+                palabraInvertida
+            )
+            &&
+            !palabrasEncontradas.includes(i)
+        ){
+
+            indiceEncontrado =
+                i;
+
+            break;
+
+        }
+
+    }
+
+    if(
+        indiceEncontrado === -1
+    ){
+
+        document.getElementById(
+            "estado"
+        ).textContent =
+            "No es una palabra de esta sopa.";
+
+        sonidoError();
+
+        return;
+
+    }
+
+    palabrasEncontradas.push(
+        indiceEncontrado
+    );
+
+    marcarPalabra(
+        filaInicial,
+        columnaInicial,
+        filaFinal,
+        columnaFinal
+    );
+
+    document.getElementById(
+        "palabra-"+indiceEncontrado
+    ).classList.add(
+        "encontrada"
+    );
+
+    actualizarContador();
+
+    document.getElementById(
+        "estado"
+    ).textContent =
+        "🎉 ¡Encontraste " +
+        limpiarPalabra(
+            palabras[indiceEncontrado]
+        ) +
+        "!";
+
+    sonidoPalabra();
+
+    if(
+        palabrasEncontradas.length ===
+        palabras.length
+    ){
+
+        mostrarVictoria();
+
+    }
+
+}
+
+
+/* =========================================================
+   VICTORIA MODERNA
+========================================================= */
+
+function mostrarVictoria(){
+
+    document.getElementById(
+        "mensajeVictoria"
+    ).innerHTML = `
+
+        <div class="victoria">
+
+            <div class="confeti">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+            <div class="trofeo-3d">
+
+                <div class="trofeo-aura"></div>
+
+                <div class="trofeo">
+
+                    <div class="asa izquierda"></div>
+
+                    <div class="asa derecha"></div>
+
+                    <div class="copa-cuerpo"></div>
+
+                    <div class="copa-borde"></div>
+
+                    <div class="trofeo-estrella">
+                        ★
+                    </div>
+
+                    <div class="trofeo-cuello"></div>
+
+                    <div class="trofeo-base-superior"></div>
+
+                    <div class="trofeo-base"></div>
+
+                </div>
+
+            </div>
+
+            <h2>
+                ¡GANASTE!
+            </h2>
+
+            <p class="frase">
+                🏆 ¡Reto completado!
+            </p>
+
+            <p>
+                Encontraste todas las palabras.
+            </p>
+
+            <p>
+                ⭐ Excelente trabajo. ¡Sigue jugando!
+            </p>
+
+            <div class="creditos">
+
+                Creado y desarrollado por
+                <strong>507TechLabs</strong>
+                y su equipo de trabajo.
+
+                <br><br>
+
+                🇵🇦 Panamá · 2026
+
+            </div>
+
+        </div>
+
+    `;
+
+    sonidoVictoria();
+
+}
+
+
+/* =========================================================
+   MARCAR PALABRA
+========================================================= */
+
+function marcarPalabra(
+    filaInicial,
+    columnaInicial,
+    filaFinal,
+    columnaFinal
+){
+
+    const df =
+        Math.sign(
+            filaFinal-filaInicial
+        );
+
+    const dc =
+        Math.sign(
+            columnaFinal-columnaInicial
+        );
+
+    const longitud =
+        Math.max(
+            Math.abs(
+                filaFinal-filaInicial
+            ),
+            Math.abs(
+                columnaFinal-columnaInicial
+            )
+        )+1;
+
+    for(
+        let i=0;
+        i<longitud;
+        i++
+    ){
+
+        const f =
+            filaInicial+df*i;
+
+        const c =
+            columnaInicial+dc*i;
+
+        const celda =
+            document.querySelector(
+                `.celda[data-fila="${f}"][data-columna="${c}"]`
+            );
+
+        if(celda){
+
+            celda.classList.add(
+                "encontrada"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LIMPIAR SELECCIÓN
+========================================================= */
+
+function limpiarSeleccion(){
+
+    document
+        .querySelectorAll(
+            ".celda.seleccionada"
+        )
+        .forEach(
+            celda => {
+
+                celda.classList.remove(
+                    "seleccionada"
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   CONTADOR
+========================================================= */
+
+function actualizarContador(){
+
+    const cantidad =
+        palabrasEncontradas.length;
+
+    document.getElementById(
+        "contador"
+    ).textContent =
+        cantidad;
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        palabras.length;
+
+    const porcentaje =
+        palabras.length === 0
+        ?
+        0
+        :
+        (
+            cantidad /
+            palabras.length
+        )*100;
+
+    document.getElementById(
+        "progreso"
+    ).style.width =
+        porcentaje+"%";
+
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+function actualizarInformacion(){
+
+    if(
+        !nivelActual ||
+        !niveles[nivelActual]
+    ){
+
+        return;
+
+    }
+
+    document.getElementById(
+        "textoNivel"
+    ).textContent =
+        niveles[nivelActual].nombre;
+
+    document.getElementById(
+        "textoCategoria"
+    ).textContent =
+        nombresCategoria[
+            categoriaActual
+        ] ||
+        "SORPRESA";
+
+    actualizarContador();
+
+}
+
+
+/* =========================================================
+   NUEVA SOPA
+========================================================= */
+
+function nuevaSopa(){
+
+    sonidoClick();
+
+    generarSopa();
+
+}
+
+
+/* =========================================================
+   VOLVER A CATEGORÍAS
+========================================================= */
+
+function volverCategoria(){
+
+    document.getElementById(
+        "pantallaJuego"
+    ).classList.remove(
+        "activa"
+    );
+
+    document.getElementById(
+        "pantallaCategoria"
+    ).classList.add(
+        "activa"
+    );
+
+    document.getElementById(
+        "mensajeVictoria"
+    ).innerHTML = "";
+
+    seleccionInicial = null;
+
+}
+
+
+/* =========================================================
+   VOLVER A NIVELES
+========================================================= */
+
+function volverNivel(){
+
+    document.getElementById(
+        "pantallaJuego"
+    ).classList.remove(
+        "activa"
+    );
+
+    document.getElementById(
+        "pantallaCategoria"
+    ).classList.remove(
+        "activa"
+    );
+
+    document.getElementById(
+        "pantallaNivel"
+    ).classList.add(
+        "activa"
+    );
+
+    nivelActual = null;
+
+    categoriaActual = null;
+
+    palabras = [];
+
+    palabrasEncontradas = [];
+
+    seleccionInicial = null;
+
+    document.getElementById(
+        "tablero"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "listaPalabras"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "mensajeVictoria"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "contador"
+    ).textContent = "0";
+
+    document.getElementById(
+        "total"
+    ).textContent = "0";
+
+    document.getElementById(
+        "progreso"
+    ).style.width = "0%";
+
+    detenerMusica();
+
+}
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        /*
+           El audio no comienza automáticamente.
+           El navegador necesita interacción del usuario.
+        */
+
+        sonidoActivo = true;
+
+    }
+);
+
+</script>
+
+</body>
+</html>
