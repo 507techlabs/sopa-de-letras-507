@@ -1983,54 +1983,7 @@ function sonidoVictoria(){
    MÚSICA AMBIENTE
 ========================================================= */
 
-function iniciarMusica(){
 
-    if(
-        !sonidoActivo ||
-        musicaIniciada
-    ){
-
-        return;
-
-    }
-
-    const ctx =
-        obtenerAudio();
-
-    if(!ctx){
-
-        return;
-
-    }
-
-    musicaIniciada = true;
-
-    gananciaMusica =
-        ctx.createGain();
-
-    gananciaMusica.gain.value =
-        0.012;
-
-    gananciaMusica.connect(
-        ctx.destination
-    );
-
-    osciladorMusica =
-        ctx.createOscillator();
-
-    osciladorMusica.type =
-        "sine";
-
-    osciladorMusica.frequency.value =
-        196;
-
-    osciladorMusica.connect(
-        gananciaMusica
-    );
-
-    osciladorMusica.start();
-
-}
 
 
 /* =========================================================
