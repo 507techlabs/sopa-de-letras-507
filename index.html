@@ -342,7 +342,8 @@ button{
     width:min(650px,90vw);
     max-width:650px;
     margin:auto;
-    touch-action:manipulation;
+    touch-action:none;
+    -webkit-touch-callout:none;
     user-select:none;
 }
 
@@ -2199,7 +2200,7 @@ catch(e){
   document.getElementById("estado").textContent = "Error: " + e.message;
 }   
 
-
+}
 
 /* =========================================================
    SELECCIONAR PALABRAS
@@ -3373,7 +3374,7 @@ function nuevaSopa(){
 catch(e){
   document.getElementById("estado").textContent = "Error: " + e.message;
 }
-
+}
 
 
 /* =========================================================
