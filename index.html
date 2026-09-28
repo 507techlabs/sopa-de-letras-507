@@ -2194,9 +2194,11 @@ function iniciarJuego(categoria){
 
     
 
-    generarSopa();
+ try{ generarSopa(); }
+catch(e){
+  document.getElementById("estado").textContent = "Error: " + e.message;
+}   
 
-}
 
 
 /* =========================================================
@@ -3367,9 +3369,11 @@ function nuevaSopa(){
 
     sonidoClick();
 
-    generarSopa();
-
+    try{ generarSopa(); }
+catch(e){
+  document.getElementById("estado").textContent = "Error: " + e.message;
 }
+
 
 
 /* =========================================================
